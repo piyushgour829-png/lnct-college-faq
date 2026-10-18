@@ -1,0 +1,3855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="LNCT College FAQ and Campus Navigation System"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b1f3a"
+    >
+
+    <title>LNCT Smart Student Assistant</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+
+</script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f6f8fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           LOADING SCREEN
+        ========================================== */
+
+        #loadingScreen {
+            position: fixed;
+            inset: 0;
+            background: #0b1f3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        .loader-box {
+            text-align: center;
+        }
+
+        .loader-logo {
+            width: 65px;
+            height: 65px;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-top-color: #f36b21;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto auto 18px;
+        }
+
+        .loader-box h2 {
+            font-size: 22px;
+        }
+
+        .loader-box p {
+            margin-top: 5px;
+            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        header {
+            background: #0b1f3a;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            background: #f36b21;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .brand-text h2 {
+            font-size: 17px;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a,
+        .nav-links button {
+            color: white;
+            background: transparent;
+            border: none;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .nav-links a:hover,
+        .nav-links button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .admin-nav-btn {
+            background: #f36b21 !important;
+        }
+
+        /* ==========================================
+           HERO
+        ========================================== */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b1f3a,
+                    #163b68
+                );
+
+            color: white;
+            padding: 85px 25px 95px;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            line-height: 1.15;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #ff8b4a;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            color: rgba(255,255,255,0.78);
+        }
+
+        /* ==========================================
+           SEARCH
+        ========================================== */
+
+        .main-search {
+            max-width: 700px;
+            margin: 30px auto 0;
+            position: relative;
+        }
+
+        .main-search input {
+            width: 100%;
+            padding: 18px 22px;
+            border-radius: 14px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* ==========================================
+           SECTION
+        ========================================== */
+
+        .section {
+            max-width: 1250px;
+            margin: auto;
+            padding: 75px 25px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            color: #0b1f3a;
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: #687386;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: #fff0e8;
+            color: #f36b21;
+            padding: 6px 13px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================
+           CATEGORIES
+        ========================================== */
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #e5e9ef;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            border-color: #f36b21;
+        }
+
+        .category-card h3 {
+            color: #0b1f3a;
+            font-size: 15px;
+        }
+
+        .category-count {
+            color: #f36b21;
+            font-size: 13px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* ==========================================
+           FAQ GRID
+        ========================================== */
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .faq-card {
+            background: white;
+            border: 1px solid #e4e8ee;
+            border-radius: 16px;
+            padding: 22px;
+            transition: 0.25s;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(11,31,58,0.08);
+        }
+
+        .faq-category {
+            display: inline-block;
+            background: #eef4ff;
+            color: #315a9d;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .faq-card h3 {
+            color: #0b1f3a;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            display: none;
+            color: #687386;
+            font-size: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #edf0f4;
+            margin-top: 10px;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        .faq-toggle {
+            border: none;
+            background: #0b1f3a;
+            color: white;
+            padding: 9px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        /* ==========================================
+           CAMPUS NAVIGATION
+        ========================================== */
+
+        .campus-section {
+            background: #f7f9fc;
+            padding: 75px 25px;
+        }
+
+        .campus-container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .campus-search-box {
+            max-width: 700px;
+            margin: 0 auto 35px;
+        }
+
+        .campus-search-box input {
+            width: 100%;
+            padding: 17px 20px;
+            border: 1px solid #dce3ec;
+            border-radius: 14px;
+            outline: none;
+            font-size: 15px;
+            background: white;
+            box-shadow: 0 8px 25px rgba(11,31,58,0.06);
+        }
+
+        .campus-search-box input:focus {
+            border-color: #f36b21;
+            box-shadow: 0 0 0 4px rgba(243,107,33,0.1);
+        }
+
+        .campus-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .campus-card {
+            background: white;
+            border: 1px solid #e4e8ee;
+            border-radius: 18px;
+            padding: 24px;
+            transition: 0.25s;
+            box-shadow: 0 8px 25px rgba(11,31,58,0.05);
+        }
+
+        .campus-card:hover {
+            transform: translateY(-5px);
+            border-color: #f36b21;
+            box-shadow: 0 15px 35px rgba(11,31,58,0.1);
+        }
+
+        .campus-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff1e8;
+            color: #f36b21;
+            border-radius: 12px;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .campus-category {
+            display: inline-block;
+            background: #eef4ff;
+            color: #315a9d;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .campus-card h3 {
+            color: #0b1f3a;
+            font-size: 19px;
+            margin-bottom: 7px;
+        }
+
+        .campus-card p {
+            color: #687386;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .campus-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .campus-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .map-btn {
+            background: #0b1f3a;
+            color: white;
+        }
+
+        .direction-btn {
+            background: #f36b21;
+            color: white;
+        }
+
+        .campus-loading,
+        .no-campus-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #687386;
+        }
+
+        /* ==========================================
+           STUDENT DASHBOARD
+        ========================================== */
+
+        .student-dashboard {
+            padding: 75px 25px;
+            background: white;
+        }
+
+        .student-dashboard-container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .student-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .student-stat-card {
+            background: #f8fafc;
+            border: 1px solid #e4e8ee;
+            border-radius: 18px;
+            padding: 24px;
+            transition: 0.25s;
+        }
+
+        .student-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(11,31,58,0.08);
+        }
+
+        .student-stat-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .student-stat-card span {
+            color: #687386;
+            font-size: 13px;
+        }
+
+        .student-stat-card h3 {
+            color: #0b1f3a;
+            font-size: 30px;
+            margin-top: 3px;
+        }
+
+        .student-dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+        }
+
+        .student-dashboard-card {
+            background: #f8fafc;
+            border: 1px solid #e4e8ee;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .student-dashboard-card h3 {
+            color: #0b1f3a;
+            margin-bottom: 15px;
+        }
+
+        .student-category-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .student-category-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e8ecf2;
+        }
+
+        .student-category-row span:first-child {
+            color: #344054;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .student-category-count {
+            background: #fff1e8;
+            color: #f36b21;
+            padding: 4px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .student-actions {
+            display: grid;
+            gap: 12px;
+        }
+
+        .student-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            border: none;
+            text-decoration: none;
+            background: white;
+            color: #0b1f3a;
+            padding: 14px;
+            border-radius: 11px;
+            border: 1px solid #e4e8ee;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .student-action-btn:hover {
+            border-color: #f36b21;
+            color: #f36b21;
+        }
+
+        .student-recent-list {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .student-recent-item {
+            background: white;
+            padding: 13px 15px;
+            border-radius: 10px;
+            border: 1px solid #e8ecf2;
+        }
+
+        .student-recent-item strong {
+            display: block;
+            color: #0b1f3a;
+            font-size: 14px;
+        }
+
+        .student-recent-item small {
+            color: #687386;
+        }
+
+        /* ==========================================
+           ABOUT
+        ========================================== */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            border: 1px solid #e5e9ef;
+        }
+
+        .info-card h3 {
+            color: #0b1f3a;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #687386;
+            font-size: 14px;
+        }
+
+        /* ==========================================
+           ADMIN DASHBOARD
+        ========================================== */
+
+        #adminPanel {
+            display: none;
+            background: #eef2f7;
+        }
+
+        .admin-container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 60px 25px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h2 {
+            color: #0b1f3a;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #dc3545;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e4e8ee;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card span {
+            color: #687386;
+            font-size: 12px;
+        }
+
+        .stat-card h3 {
+            color: #0b1f3a;
+            font-size: 28px;
+            margin-top: 5px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #e4e8ee;
+        }
+
+        .dashboard-card h3 {
+            color: #0b1f3a;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #344054;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d9dee7;
+            border-radius: 9px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #f36b21;
+        }
+
+        .form-error {
+            color: #dc3545;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .primary-btn {
+            border: none;
+            background: #f36b21;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .secondary-btn {
+            border: none;
+            background: #0b1f3a;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .cancel-btn {
+            border: none;
+            background: #6c757d;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+            display: none;
+            margin-left: 5px;
+        }
+
+        .admin-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admin-item {
+            background: #f8fafc;
+            border: 1px solid #e4e8ee;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .admin-item h4 {
+            color: #0b1f3a;
+            font-size: 14px;
+        }
+
+        .admin-item small {
+            color: #687386;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            color: white;
+            font-size: 11px;
+        }
+
+        .edit-btn {
+            background: #315a9d;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        /* ==========================================
+           LOGIN MODAL
+        ========================================== */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,15,30,0.65);
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            position: relative;
+        }
+
+        .modal-box h2 {
+            color: #0b1f3a;
+            margin-bottom: 5px;
+        }
+
+        .modal-box p {
+            color: #687386;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            border: none;
+            background: transparent;
+            font-size: 23px;
+            color: #687386;
+        }
+
+        .login-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        /* ==========================================
+           TOAST
+        ========================================== */
+
+        #toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #0b1f3a;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 10px;
+            display: none;
+            z-index: 7000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 13px;
+        }
+
+        #toast.show {
+            display: block;
+        }
+
+        /* ==========================================
+           FOOTER
+        ========================================== */
+
+        footer {
+            background: #08172b;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer p {
+            font-size: 12px;
+            opacity: 0.65;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1000px) {
+
+            .faq-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .campus-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 12px 15px;
+            }
+
+            .nav-links a {
+                display: none;
+            }
+
+            .hero {
+                padding: 60px 20px 70px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .faq-grid,
+            .campus-grid,
+            .about-grid,
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .brand-text {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .category-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .campus-buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    
+
+/* USE MY LOCATION BUTTON */
+.location-btn {
+    display: block;
+    margin: 15px auto;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    background: #ff6b1a;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.location-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.location-status {
+    text-align: center;
+    margin-top: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   FAQ CHATBOT
+========================================== */
+.chatbot-launcher{position:fixed;right:24px;bottom:24px;width:58px;height:58px;border:0;border-radius:50%;background:#ff6b1a;color:#fff;font-size:25px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:999;cursor:pointer}.chatbot-panel{display:none;position:fixed;right:24px;bottom:92px;width:360px;max-width:calc(100vw - 32px);background:#fff;border-radius:16px;box-shadow:0 14px 40px rgba(0,0,0,.2);z-index:1000;overflow:hidden;border:1px solid #e6e9ef}.chatbot-panel.open{display:block}.chatbot-head{background:#0b1f3a;color:#fff;padding:15px 17px;display:flex;justify-content:space-between;align-items:center}.chatbot-head h3{margin:0;font-size:17px}.chatbot-close{background:transparent;border:0;color:#fff;font-size:22px}.chatbot-messages{height:300px;overflow-y:auto;padding:14px;background:#f6f8fb}.chatbot-msg{max-width:88%;padding:10px 12px;border-radius:12px;margin-bottom:10px;font-size:14px;line-height:1.45}.chatbot-msg.bot{background:#fff;border:1px solid #e3e7ed}.chatbot-msg.user{margin-left:auto;background:#ff6b1a;color:#fff}.chatbot-quick{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px 0}.chatbot-quick button{border:1px solid #d9dee7;background:#fff;border-radius:20px;padding:6px 9px;font-size:12px}.chatbot-input-row{display:flex;gap:8px;padding:12px}.chatbot-input-row input{flex:1;border:1px solid #d9dee7;border-radius:10px;padding:10px;outline:none}.chatbot-input-row button{border:0;border-radius:10px;padding:10px 13px;background:#0b1f3a;color:#fff;font-weight:600}@media(max-width:600px){.chatbot-launcher{right:16px;bottom:16px}.chatbot-panel{right:16px;bottom:84px;width:calc(100vw - 32px)}}
+
+/* ==========================================
+   STUDENT PROFILE
+========================================== */
+.student-profile-card { margin-bottom:25px; background:linear-gradient(135deg,#0b1f3a,#17345d); color:white; border-radius:18px; padding:22px 25px; display:flex; justify-content:space-between; align-items:center; gap:18px; }
+.student-profile-info { display:flex; align-items:center; gap:15px; }
+.student-profile-avatar { width:58px; height:58px; border-radius:50%; background:#f36b21; display:flex; align-items:center; justify-content:center; font-size:25px; font-weight:700; }
+.student-profile-info h3 { margin:0 0 5px; color:white; }
+.student-profile-info p { margin:0; color:#d7e0ec; font-size:13px; }
+.student-profile-actions { display:flex; gap:9px; flex-wrap:wrap; }
+.student-profile-btn { border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.1); color:white; border-radius:9px; padding:9px 13px; cursor:pointer; font-weight:600; }
+.student-profile-btn:hover { background:#f36b21; border-color:#f36b21; }
+.profile-modal { position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:3000; }
+.profile-modal.open { display:flex; }
+.profile-modal-card { width:min(500px,100%); background:white; border-radius:18px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+.profile-modal-card h2 { color:#0b1f3a; margin-bottom:7px; }
+.profile-modal-card p { color:#687386; font-size:13px; margin-bottom:20px; }
+.profile-form-grid { display:grid; gap:14px; }
+.profile-field label { display:block; font-size:13px; font-weight:700; color:#344054; margin-bottom:6px; }
+.profile-field input, .profile-field select { width:100%; padding:12px; border:1px solid #d9dee7; border-radius:9px; outline:none; }
+.profile-field input:focus, .profile-field select:focus { border-color:#f36b21; }
+.profile-modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+.profile-save-btn { background:#f36b21; color:white; border:0; border-radius:9px; padding:11px 18px; font-weight:700; cursor:pointer; }
+.profile-cancel-btn { background:#eef1f5; color:#344054; border:0; border-radius:9px; padding:11px 18px; font-weight:700; cursor:pointer; }
+@media(max-width:600px){ .student-profile-card{align-items:flex-start; flex-direction:column;} .student-profile-actions{width:100%;} .student-profile-btn{flex:1;} }
+
+
+/* STEP 11 - NOTICE BOARD */
+/* ==========================================
+   PROFESSIONAL EVENTS / NOTICE BOARD
+========================================== */
+.notice-board{padding:75px 25px;background:#f8fafc}.notice-container{max-width:1250px;margin:auto}.notice-tools{display:flex;gap:12px;margin:28px 0;flex-wrap:wrap}.notice-search{flex:1;min-width:240px;padding:14px 16px;border:1px solid #dfe4ea;border-radius:11px;background:#fff;font:inherit;outline:none}.notice-search:focus,.notice-filter:focus{border-color:#f36b21;box-shadow:0 0 0 3px rgba(243,107,33,.10)}.notice-filter{min-width:150px;padding:14px 16px;border:1px solid #dfe4ea;border-radius:11px;background:white;color:#344054;font:inherit;outline:none}.notice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.notice-card{overflow:hidden;background:#fff;border:1px solid #e4e8ee;border-radius:18px;box-shadow:0 7px 24px rgba(11,31,58,.06);transition:.25s;display:flex;flex-direction:column}.notice-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(11,31,58,.10);border-color:#f0d4c4}.notice-poster-wrap{height:215px;background:#eef2f6;overflow:hidden;position:relative}.notice-poster{width:100%;height:100%;object-fit:cover;display:block}.notice-no-poster{height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,#eef4ff,#fff1e8)}.notice-card-body{padding:20px}.notice-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:#687386}.notice-badge{background:#fff1e8;color:#f36b21;padding:6px 10px;border-radius:20px;font-weight:800}.notice-date{font-weight:600}.notice-card h3{color:#0b1f3a;margin:13px 0 10px;font-size:19px;line-height:1.35}.notice-details{display:grid;gap:7px;margin-bottom:12px}.notice-detail{color:#475467;font-size:13px;font-weight:600}.notice-description{color:#687386;line-height:1.65;font-size:14px;margin:0}.notice-empty{grid-column:1/-1;background:white;border:1px solid #e4e8ee;border-radius:18px;padding:50px 20px;text-align:center;color:#687386}.notice-empty-icon{font-size:42px;margin-bottom:10px}.notice-empty h3{color:#0b1f3a;margin-bottom:6px}@media(max-width:1000px){.notice-grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.notice-board{padding:55px 18px}.notice-grid{grid-template-columns:1fr}.notice-poster-wrap{height:200px}.notice-tools{flex-direction:column}.notice-search,.notice-filter{width:100%;box-sizing:border-box}}
+
+/* ==========================================
+   ADMIN EVENT MANAGEMENT
+========================================== */
+.admin-event-box{margin-top:20px;background:#f8fafc;border:1px solid #e4e8ee;border-radius:18px;padding:25px}
+.admin-event-heading h3{color:#0b1f3a;margin:8px 0 6px}
+.admin-event-heading p{color:#687386;font-size:14px;margin-bottom:22px}
+.event-form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.event-form-field{display:flex;flex-direction:column;gap:7px}
+.event-form-field label{color:#344054;font-size:13px;font-weight:700}
+.event-form-field input,.event-form-field select,.event-form-field textarea{width:100%;padding:12px 13px;border:1px solid #d9dee7;border-radius:10px;background:#fff;color:#344054;font-family:inherit;outline:none;box-sizing:border-box}
+.event-form-field input:focus,.event-form-field select:focus,.event-form-field textarea:focus{border-color:#f36b21}
+.event-form-field textarea{resize:vertical}
+.event-form-field small{color:#687386;font-size:12px}
+.event-full{grid-column:1/-1}
+.event-form-actions{display:flex;gap:10px;margin-top:22px}
+.admin-event-save-btn{background:#f36b21;color:#fff;border:none;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer}
+.admin-event-save-btn:hover{background:#d95510}
+.admin-event-cancel-btn{background:#e9edf3;color:#344054;border:none;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer}
+.event-poster-preview{margin-top:10px}
+.event-poster-preview img{max-width:220px;max-height:180px;object-fit:cover;border-radius:10px;border:1px solid #dfe4ea}
+.event-form-message{margin-top:12px;font-size:13px;font-weight:600;min-height:18px}
+.admin-event-list{margin-top:20px}
+.admin-event-item{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:16px;border:1px solid #e4e8ee;border-radius:12px;background:#fff;margin-bottom:10px}
+.admin-event-item h4{margin:0 0 6px;color:#0b1f3a}
+.admin-event-item p{margin:4px 0;color:#687386;font-size:13px}
+.admin-event-item img{width:90px;height:70px;object-fit:cover;border-radius:8px}
+.admin-event-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.admin-event-actions button{border:0;border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer}
+.event-edit-btn{background:#eef4ff;color:#2458a6}.event-delete-btn{background:#fff0f0;color:#c62828}
+@media(max-width:700px){.event-form-grid{grid-template-columns:1fr}.event-full{grid-column:auto}.event-form-actions{flex-direction:column}.admin-event-item{flex-direction:column}.admin-event-item img{width:100%;height:160px}}
+
+</style>
+</head>
+
+<body>
+
+<!-- ==========================================
+     LOADING SCREEN
+========================================== -->
+
+<div id="loadingScreen">
+
+    <div class="loader-box">
+
+        <div class="loader-logo"></div>
+
+        <h2>LNCT Smart Student Assistant</h2>
+
+        <p>Loading portal...</p>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header>
+
+    <div class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                L
+            </div>
+
+            <div class="brand-text">
+
+                <h2>LNCT FAQ</h2>
+
+                <span>
+                    Smart Student Assistant
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="#faq-section">
+                FAQs
+            </a>
+
+            <a href="#campus-navigation">
+                Campus
+            </a>
+
+            <a href="#events-section">
+                Events
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <button
+                class="admin-nav-btn"
+                onclick="openLoginModal()"
+            >
+                Admin
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            LNCT • COLLEGE FAQ PORTAL
+        </div>
+
+        <h1>
+            Find Your
+            <span>Answer Quickly.</span>
+        </h1>
+
+        <p>
+            Search frequently asked questions,
+            explore campus locations and get
+            useful information about LNCT.
+        </p>
+
+
+        <div class="main-search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search your question..."
+                autocomplete="off"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     FAQ SECTION
+========================================== -->
+
+<section
+    class="section"
+    id="faq-section"
+>
+
+    <div class="section-heading">
+
+        <span class="section-tag">
+            FREQUENTLY ASKED QUESTIONS
+        </span>
+
+        <h2>
+            College FAQs
+        </h2>
+
+        <p>
+            Find answers to common student questions.
+        </p>
+
+    </div>
+
+
+    <div
+        class="category-grid"
+        id="categoryGrid"
+    >
+    </div>
+
+
+    <div
+        class="faq-grid"
+        id="faqGrid"
+    >
+
+        <div class="campus-loading">
+            Loading FAQs...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     STUDENT DASHBOARD
+========================================== -->
+
+<section class="student-dashboard" id="student-dashboard">
+    <div class="student-dashboard-container">
+
+        <div class="section-heading">
+            <span class="section-tag">STUDENT DASHBOARD</span>
+            <h2>LNCT Student Overview</h2>
+            <p>Quick access to FAQs, campus navigation and important information.</p>
+        </div>
+
+        <div class="student-profile-card">
+            <div class="student-profile-info">
+                <div class="student-profile-avatar" id="studentProfileAvatar">S</div>
+                <div>
+                    <h3 id="studentProfileName">Welcome, Student</h3>
+                    <p id="studentProfileDetails">Set up your student profile for a personalized dashboard.</p>
+                </div>
+            </div>
+            <div class="student-profile-actions">
+                <button type="button" class="student-profile-btn" onclick="openStudentProfile()">✏️ Edit Profile</button>
+                <button type="button" class="student-profile-btn" onclick="logoutStudentProfile()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="student-stats-grid">
+            <div class="student-stat-card">
+                <div class="student-stat-icon">📚</div>
+                <span>Total FAQs</span>
+                <h3 id="studentTotalFAQs">0</h3>
+            </div>
+
+            <div class="student-stat-card">
+                <div class="student-stat-icon">🏷️</div>
+                <span>Categories</span>
+                <h3 id="studentTotalCategories">0</h3>
+            </div>
+
+            <div class="student-stat-card">
+                <div class="student-stat-icon">🏫</div>
+                <span>Campus Buildings</span>
+                <h3 id="studentTotalLocations">0</h3>
+            </div>
+
+            <div class="student-stat-card">
+                <div class="student-stat-icon">🤖</div>
+                <span>Student Assistant</span>
+                <h3>ON</h3>
+            </div>
+        </div>
+
+        <div class="student-dashboard-grid">
+
+            <div class="student-dashboard-card">
+                <h3>📊 FAQ Categories</h3>
+                <div id="studentCategoryList" class="student-category-list">
+                    <div class="student-category-row">
+                        <span>Loading...</span>
+                        <span class="student-category-count">0</span>
+                    </div>
+                </div>
+
+                <div class="student-recent-list">
+                    <h3>🕐 Recent FAQs</h3>
+                    <div id="studentRecentFAQs">
+                        <div class="student-recent-item">
+                            <small>Loading FAQs...</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-dashboard-card">
+                <h3>⚡ Quick Access</h3>
+
+                <div class="student-actions">
+                    <a href="#faq-section" class="student-action-btn">
+                        📚 <span>Browse College FAQs</span>
+                    </a>
+
+                    <a href="#campus-navigation" class="student-action-btn">
+                        📍 <span>Campus Navigation</span>
+                    </a>
+
+                    <button type="button" class="student-action-btn" onclick="openStudentAssistant()">
+                        🤖 <span>Ask LNCT Assistant</span>
+                    </button>
+
+                    <a href="#about" class="student-action-btn">
+                        ℹ️ <span>About This Project</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- EVENTS / NOTICE BOARD -->
+<section class="notice-board" id="events-section">
+<div class="notice-container">
+<div class="section-heading"><span class="section-tag">LNCT EVENTS & NOTICES</span><h2>College Events</h2><p>Check upcoming events, examinations and important college announcements.</p></div>
+<div class="notice-tools"><input type="text" id="noticeSearch" class="notice-search" placeholder="Search events or notices..." autocomplete="off"><select id="noticeFilter" class="notice-filter"><option value="all">All</option><option value="Event">Events</option><option value="Exam">Exams</option><option value="Admission">Admission</option><option value="General">General</option></select></div>
+<div id="noticeGrid" class="notice-grid"><div class="campus-loading">Loading events...</div></div>
+</div></section>
+
+<!-- ==========================================
+     CAMPUS NAVIGATION
+========================================== -->
+
+<section
+    class="campus-section"
+    id="campus-navigation"
+>
+
+    <div class="campus-container">
+
+        <div class="section-heading">
+
+            <span class="section-tag">
+                LNCT CAMPUS
+            </span>
+
+            <h2>
+                Campus Navigation
+            </h2>
+
+            <p>
+                Find LNCT buildings and get directions quickly.
+            </p>
+
+        </div>
+
+
+        <div class="campus-search-box">
+
+            <input
+                type="text"
+                id="campusSearch"
+                placeholder="Search building... e.g. Central Library"
+                autocomplete="off"
+            >
+
+            <button
+                id="useLocationBtn"
+                class="location-btn"
+                type="button"
+            >
+                📍 Use My Location
+            </button>
+
+            <p id="locationStatus" class="location-status"></p>
+
+        </div>
+
+
+        <div
+            class="campus-grid"
+            id="campusGrid"
+        >
+
+            <div class="campus-loading">
+                Loading campus locations...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     ABOUT
+========================================== -->
+
+<section
+    class="section"
+    id="about"
+>
+
+    <div class="section-heading">
+
+        <span class="section-tag">
+            ABOUT PROJECT
+        </span>
+
+        <h2>
+            LNCT Smart Student Assistant
+        </h2>
+
+        <p>
+            FAQ and campus navigation system.
+        </p>
+
+    </div>
+
+
+    <div class="about-grid">
+
+        <div class="info-card">
+
+            <h3>
+                📚 College FAQ
+            </h3>
+
+            <p>
+                Students can search frequently asked
+                questions related to admission, courses,
+                college facilities and other important
+                information.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                📍 Campus Navigation
+            </h3>
+
+            <p>
+                Students can search important LNCT
+                campus buildings and quickly open
+                their location or directions on Google Maps.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     ADMIN PANEL
+========================================== -->
+
+<section id="adminPanel">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div>
+
+                <span class="section-tag">
+                    ADMIN DASHBOARD
+                </span>
+
+                <h2>
+                    FAQ Management
+                </h2>
+
+            </div>
+
+
+            <button
+                class="logout-btn"
+                onclick="logoutAdmin()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>
+                    Total FAQs
+                </span>
+
+                <h3 id="totalFAQs">
+                    0
+                </h3>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    Categories
+                </span>
+
+                <h3 id="totalCategories">
+                    0
+                </h3>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    Campus Locations
+                </span>
+
+                <h3 id="totalLocations">
+                    9
+                </h3>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    System Status
+                </span>
+
+                <h3>
+                    ✓
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- FAQ FORM -->
+
+            <div class="dashboard-card">
+
+                <h3 id="formTitle">
+                    Add New FAQ
+                </h3>
+
+
+                <input
+                    type="hidden"
+                    id="editFAQId"
+                >
+
+
+                <div class="form-group">
+
+                    <label>
+                        Question
+                    </label>
+
+                    <input
+                        type="text"
+                        id="faqQuestion"
+                        placeholder="Enter question"
+                    >
+
+                    <div
+                        class="form-error"
+                        id="questionError"
+                    ></div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="faqCategory"
+                        placeholder="Example: Admission"
+                    >
+
+                    <div
+                        class="form-error"
+                        id="categoryError"
+                    ></div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Answer
+                    </label>
+
+                    <textarea
+                        id="faqAnswer"
+                        placeholder="Enter answer"
+                    ></textarea>
+
+                    <div
+                        class="form-error"
+                        id="answerError"
+                    ></div>
+
+                </div>
+
+
+                <button
+                    class="primary-btn"
+                    onclick="saveFAQ()"
+                >
+                    Save FAQ
+                </button>
+
+
+                <button
+                    class="cancel-btn"
+                    id="cancelEditBtn"
+                    onclick="cancelEdit()"
+                >
+                    Cancel
+                </button>
+
+            </div>
+
+
+            <!-- CHART -->
+
+            <div class="dashboard-card">
+
+                <h3>
+                    FAQ Category Distribution
+                </h3>
+
+                <canvas
+                    id="distributionChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECOND CHART -->
+
+        <div class="dashboard-card">
+
+            <h3>
+                FAQs by Category
+            </h3>
+
+            <canvas
+                id="categoryChart"
+            ></canvas>
+
+        </div>
+
+
+        <!-- RECENT FAQS -->
+
+        <div
+            class="dashboard-card"
+            style="margin-top:20px;"
+        >
+
+            <h3>
+                Recent FAQs
+            </h3>
+
+            <div
+                id="recentFAQs"
+                class="admin-list"
+            ></div>
+
+        </div>
+
+
+        <!-- ==========================================
+             ADMIN EVENT MANAGEMENT
+        ========================================== -->
+
+        <div class="admin-event-box" id="adminEventManagement">
+            <div class="admin-event-heading">
+                <span class="section-tag">EVENT MANAGEMENT</span>
+                <h3>📢 Add New Event / Notice</h3>
+                <p>Create a college event, exam, admission notice or general announcement with a poster.</p>
+            </div>
+
+            <input type="hidden" id="editEventId" value="">
+
+            <div class="event-form-grid">
+                <div class="event-form-field">
+                    <label for="eventTitle">Event Title *</label>
+                    <input type="text" id="eventTitle" placeholder="Example: LNCT Sports Fest 2026" maxlength="150">
+                </div>
+
+                <div class="event-form-field">
+                    <label for="eventCategory">Category *</label>
+                    <select id="eventCategory">
+                        <option value="Event">Event</option>
+                        <option value="Exam">Exam</option>
+                        <option value="Admission">Admission</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+
+                <div class="event-form-field">
+                    <label for="eventDate">Date *</label>
+                    <input type="text" id="eventDate" placeholder="Example: 15 October 2026" maxlength="50">
+                </div>
+
+                <div class="event-form-field">
+                    <label for="eventTime">Time</label>
+                    <input type="text" id="eventTime" placeholder="Example: 10:00 AM - 4:00 PM" maxlength="50">
+                </div>
+
+                <div class="event-form-field">
+                    <label for="eventVenue">Venue</label>
+                    <input type="text" id="eventVenue" placeholder="Example: LNCT Auditorium" maxlength="200">
+                </div>
+
+                <div class="event-form-field event-full">
+                    <label for="eventDescription">Event Description *</label>
+                    <textarea id="eventDescription" rows="6" maxlength="3000" placeholder="Write complete information about the event..."></textarea>
+                    <small>Maximum 3000 characters</small>
+                </div>
+
+                <div class="event-form-field event-full">
+                    <label for="eventPoster">🖼️ Event Poster / Image</label>
+                    <input type="file" id="eventPoster" accept="image/jpeg,image/png,image/webp">
+                    <small>JPG, PNG or WEBP • Maximum 5 MB</small>
+                    <div id="eventPosterPreview" class="event-poster-preview"></div>
+                </div>
+            </div>
+
+            <div class="event-form-actions">
+                <button type="button" id="publishEventBtn" class="admin-event-save-btn" onclick="saveEvent()">📢 Publish Event</button>
+                <button type="button" id="cancelEventBtn" class="admin-event-cancel-btn" onclick="clearEventForm()">✖ Clear</button>
+            </div>
+
+            <div id="eventFormMessage" class="event-form-message"></div>
+        </div>
+
+        <div class="dashboard-card admin-event-list">
+            <h3>📋 Manage Published Events</h3>
+            <div id="adminEventList">Loading events...</div>
+        </div>
+
+        <!-- MANAGE FAQS -->
+
+        <div
+            class="dashboard-card"
+            style="margin-top:20px;"
+        >
+
+            <h3>
+                Manage FAQs
+            </h3>
+
+            <div
+                id="adminFAQList"
+                class="admin-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     LOGIN MODAL
+========================================== -->
+
+<div
+    class="modal"
+    id="loginModal"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close-modal"
+            onclick="closeLoginModal()"
+        >
+            ×
+        </button>
+
+        <h2>
+            Admin Login
+        </h2>
+
+        <p>
+            Login to manage college FAQs.
+        </p>
+
+
+        <div
+            class="login-error"
+            id="loginError"
+        >
+            Invalid username or password.
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="Enter username"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+            >
+
+        </div>
+
+
+        <button
+            class="primary-btn"
+            style="width:100%;"
+            onclick="loginAdmin()"
+        >
+            Login
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     LNCT FAQ CHATBOT
+========================================== -->
+<button id="chatbotLauncher" class="chatbot-launcher" aria-label="Open LNCT Assistant">🤖</button>
+<div id="chatbotPanel" class="chatbot-panel">
+  <div class="chatbot-head"><h3>🤖 LNCT Smart Assistant</h3><button id="chatbotClose" class="chatbot-close">×</button></div>
+  <div id="chatbotMessages" class="chatbot-messages"><div class="chatbot-msg bot">Hi! 👋 Ask me about LNCT FAQs, admissions, courses, fees, or campus buildings.</div></div>
+  <div class="chatbot-quick"><button data-q="Admission">Admission</button><button data-q="Courses">Courses</button><button data-q="Central Library">Central Library</button><button data-q="BTech AIML">B.Tech AIML</button></div>
+  <div class="chatbot-input-row"><input id="chatbotInput" type="text" placeholder="Ask your question..." autocomplete="off"><button id="chatbotSend">Send</button></div>
+</div>
+
+<!-- ==========================================
+     TOAST
+========================================== -->
+
+<div id="toast"></div>
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+    <p>
+        © 2026 LNCT Smart Student Assistant
+    </p>
+
+    <p style="margin-top:5px;">
+        College FAQ & Campus Navigation System
+    </p>
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   GLOBAL VARIABLES
+========================================== */
+
+let allFAQs = [];
+
+let campusLocations = [];
+
+let categoryChart = null;
+
+let distributionChart = null;
+
+
+/* ==========================================
+   SECURITY
+========================================== */
+
+function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+/* ==========================================
+   FAQ LOAD
+========================================== */
+
+async function loadFAQs() {
+
+    try {
+
+        const response =
+            await fetch("/api/faqs");
+
+        if (!response.ok) {
+            throw new Error("Failed");
+        }
+
+        allFAQs =
+            await response.json();
+
+        renderCategories();
+
+        renderFAQs(allFAQs);
+
+        updateDashboard();
+
+        updateCharts();
+
+        renderRecentFAQs();
+
+        renderAdminList();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("faqGrid").innerHTML = `
+            <div class="no-campus-results">
+                Unable to load FAQs.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   CATEGORY RENDER
+========================================== */
+
+function renderCategories() {
+
+    const categoryGrid =
+        document.getElementById("categoryGrid");
+
+    const categories = {};
+
+    allFAQs.forEach(faq => {
+
+        categories[faq.category] =
+            (categories[faq.category] || 0) + 1;
+
+    });
+
+
+    categoryGrid.innerHTML =
+        Object.entries(categories)
+            .map(([category, count]) => `
+
+                <div
+                    class="category-card"
+                    onclick="filterCategory('${escapeHTML(category)}')"
+                >
+
+                    <h3>
+                        ${escapeHTML(category)}
+                    </h3>
+
+                    <div class="category-count">
+                        ${count} FAQ${count > 1 ? "s" : ""}
+                    </div>
+
+                </div>
+
+            `)
+            .join("");
+
+}
+
+
+/* ==========================================
+   FAQ RENDER
+========================================== */
+
+function renderFAQs(faqs) {
+
+    const faqGrid =
+        document.getElementById("faqGrid");
+
+
+    if (!faqs.length) {
+
+        faqGrid.innerHTML = `
+            <div class="no-campus-results">
+                No FAQ found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    faqGrid.innerHTML =
+        faqs.map((faq, index) => `
+
+            <div class="faq-card">
+
+                <span class="faq-category">
+                    ${escapeHTML(faq.category)}
+                </span>
+
+                <h3>
+                    ${escapeHTML(faq.question)}
+                </h3>
+
+                <div
+                    class="faq-answer"
+                    id="answer-${index}"
+                >
+                    ${escapeHTML(faq.answer)}
+                </div>
+
+                <button
+                    class="faq-toggle"
+                    onclick="toggleAnswer(${index})"
+                >
+                    View Answer
+                </button>
+
+            </div>
+
+        `)
+        .join("");
+
+}
+
+
+/* ==========================================
+   TOGGLE ANSWER
+========================================== */
+
+function toggleAnswer(index) {
+
+    const answer =
+        document.getElementById(
+            `answer-${index}`
+        );
+
+    if (!answer) return;
+
+    answer.classList.toggle("show");
+
+}
+
+
+/* ==========================================
+   SEARCH FAQ
+========================================== */
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+searchInput.addEventListener(
+    "input",
+    function () {
+
+        const searchText =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            allFAQs.filter(faq => {
+
+                return (
+
+                    faq.question
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    ||
+
+                    faq.answer
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    ||
+
+                    faq.category
+                        .toLowerCase()
+                        .includes(searchText)
+
+                );
+
+            });
+
+
+        renderFAQs(filtered);
+
+    }
+);
+
+
+/* ==========================================
+   CATEGORY FILTER
+========================================== */
+
+function filterCategory(category) {
+
+    const filtered =
+        allFAQs.filter(
+            faq => faq.category === category
+        );
+
+    renderFAQs(filtered);
+
+    document
+        .getElementById("faq-section")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ==========================================
+   CAMPUS LOCATIONS
+========================================== */
+
+async function loadCampusLocations() {
+
+    const campusGrid =
+        document.getElementById("campusGrid");
+
+
+    try {
+
+        const response =
+            await fetch("/api/locations");
+
+
+        if (!response.ok) {
+            throw new Error("Failed");
+        }
+
+
+        campusLocations =
+            await response.json();
+
+
+        renderCampusLocations(
+            campusLocations
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        campusGrid.innerHTML = `
+            <div class="no-campus-results">
+                Unable to load campus locations.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   CAMPUS RENDER
+========================================== */
+
+let currentLatitude = null;
+let currentLongitude = null;
+
+function renderCampusLocations(locations) {
+    const campusGrid = document.getElementById("campusGrid");
+    if (!locations.length) {
+        campusGrid.innerHTML = `<div class="no-campus-results">No campus location found.</div>`;
+        return;
+    }
+    campusGrid.innerHTML = locations.map(location => {
+        const mapQuery = encodeURIComponent(`${location.name}, LNCT Bhopal`);
+        const mapURL = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+        let directionURL;
+        if (currentLatitude !== null && currentLongitude !== null) {
+            directionURL = `https://www.google.com/maps/dir/?api=1&origin=${currentLatitude},${currentLongitude}&destination=${encodeURIComponent(location.name + ", LNCT Bhopal")}&travelmode=driving`;
+        } else {
+            directionURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(location.name + ", LNCT Bhopal")}`;
+        }
+        return `
+            <div class="campus-card">
+                <div class="campus-icon">📍</div>
+                <span class="campus-category">${escapeHTML(location.category)}</span>
+                <h3>${escapeHTML(location.name)}</h3>
+                <p>${escapeHTML(location.description)}</p>
+                <div class="campus-buttons">
+                    <a href="${mapURL}" target="_blank" rel="noopener noreferrer" class="campus-btn map-btn">🗺️ View Map</a>
+                    <a href="${directionURL}" target="_blank" rel="noopener noreferrer" class="campus-btn direction-btn">🧭 Get Direction</a>
+                </div>
+            </div>`;
+    }).join("");
+}
+
+/* ==========================================
+   CAMPUS SEARCH
+========================================== */
+
+const campusSearch =
+    document.getElementById("campusSearch");
+
+
+campusSearch.addEventListener(
+    "input",
+    function () {
+
+        const searchText =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            campusLocations.filter(location => {
+
+                return (
+
+                    location.name
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    ||
+
+                    location.description
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    ||
+
+                    location.category
+                        .toLowerCase()
+                        .includes(searchText)
+
+                );
+
+            });
+
+
+        renderCampusLocations(filtered);
+
+    }
+);
+
+
+/* ==========================================
+   USE MY LOCATION
+========================================== */
+
+const useLocationBtn = document.getElementById("useLocationBtn");
+const locationStatus = document.getElementById("locationStatus");
+
+useLocationBtn.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        locationStatus.textContent = "❌ Your browser does not support location.";
+        return;
+    }
+    locationStatus.textContent = "📍 Getting your location...";
+    useLocationBtn.disabled = true;
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            currentLatitude = position.coords.latitude;
+            currentLongitude = position.coords.longitude;
+            locationStatus.textContent = `✅ Location detected: ${currentLatitude.toFixed(5)}, ${currentLongitude.toFixed(5)}`;
+            console.log("Student Location:", { latitude: currentLatitude, longitude: currentLongitude });
+            renderCampusLocations(campusLocations);
+            useLocationBtn.disabled = false;
+        },
+        (error) => {
+            useLocationBtn.disabled = false;
+            if (error.code === 1) locationStatus.textContent = "❌ Location permission denied.";
+            else if (error.code === 2) locationStatus.textContent = "❌ Location unavailable.";
+            else locationStatus.textContent = "❌ Unable to get your location.";
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+});
+
+
+/* ==========================================
+   ADMIN LOGIN MODAL
+========================================== */
+
+function openLoginModal() {
+
+    document
+        .getElementById("loginModal")
+        .classList.add("show");
+
+}
+
+
+function closeLoginModal() {
+
+    document
+        .getElementById("loginModal")
+        .classList.remove("show");
+
+}
+
+
+/* ==========================================
+   ADMIN LOGIN
+========================================== */
+
+async function loginAdmin() {
+
+    const username =
+        document
+            .getElementById("loginUsername")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    const error =
+        document.getElementById("loginError");
+
+
+    error.style.display = "none";
+
+
+    if (!username || !password) {
+
+        error.textContent =
+            "Please enter username and password.";
+
+        error.style.display = "block";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "same-origin",
+
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            error.textContent =
+                data.message ||
+                "Invalid login details.";
+
+            error.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        closeLoginModal();
+
+        showAdminPanel();
+
+        showToast(
+            "Admin login successful."
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        error.textContent =
+            "Unable to connect to server.";
+
+        error.style.display =
+            "block";
+
+    }
+
+}
+
+
+/* ==========================================
+   CHECK AUTH
+========================================== */
+
+async function checkAuth() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/check-auth",
+                {
+                    credentials:
+                        "same-origin"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.authenticated) {
+
+            showAdminPanel();
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* ==========================================
+   SHOW ADMIN
+========================================== */
+
+function showAdminPanel() {
+
+    document
+        .getElementById("adminPanel")
+        .style.display = "block";
+
+}
+
+
+/* ==========================================
+   HIDE ADMIN
+========================================== */
+
+function hideAdminPanel() {
+
+    document
+        .getElementById("adminPanel")
+        .style.display = "none";
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+async function logoutAdmin() {
+
+    try {
+
+        await fetch(
+            "/api/logout",
+            {
+                method: "POST",
+                credentials: "same-origin"
+            }
+        );
+
+        hideAdminPanel();
+
+        showToast(
+            "Logged out successfully."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* ==========================================
+   FORM VALIDATION
+========================================== */
+
+function validateFAQForm() {
+
+    const question =
+        document
+            .getElementById("faqQuestion")
+            .value.trim();
+
+
+    const category =
+        document
+            .getElementById("faqCategory")
+            .value.trim();
+
+
+    const answer =
+        document
+            .getElementById("faqAnswer")
+            .value.trim();
+
+
+    document.getElementById(
+        "questionError"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "categoryError"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "answerError"
+    ).textContent = "";
+
+
+    let valid = true;
+
+
+    if (question.length < 5) {
+
+        document.getElementById(
+            "questionError"
+        ).textContent =
+            "Question must contain at least 5 characters.";
+
+        valid = false;
+
+    }
+
+
+    if (category.length < 2) {
+
+        document.getElementById(
+            "categoryError"
+        ).textContent =
+            "Enter a valid category.";
+
+        valid = false;
+
+    }
+
+
+    if (answer.length < 5) {
+
+        document.getElementById(
+            "answerError"
+        ).textContent =
+            "Answer must contain at least 5 characters.";
+
+        valid = false;
+
+    }
+
+
+    return {
+        valid,
+        question,
+        category,
+        answer
+    };
+
+}
+
+
+/* ==========================================
+   ADD / EDIT FAQ
+========================================== */
+
+async function saveFAQ() {
+
+    const validation =
+        validateFAQForm();
+
+
+    if (!validation.valid) {
+        return;
+    }
+
+
+    const editId =
+        document
+            .getElementById("editFAQId")
+            .value;
+
+
+    const url =
+        editId
+            ? `/api/faqs/${editId}`
+            : "/api/faqs";
+
+
+    const method =
+        editId
+            ? "PUT"
+            : "POST";
+
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method,
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials:
+                        "same-origin",
+
+                    body: JSON.stringify({
+
+                        question:
+                            validation.question,
+
+                        category:
+                            validation.category,
+
+                        answer:
+                            validation.answer
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (response.status === 401) {
+
+            hideAdminPanel();
+
+            showToast(
+                "Session expired. Please login again."
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            showToast(
+                data.message ||
+                "Operation failed."
+            );
+
+            return;
+
+        }
+
+
+        showToast(
+            editId
+                ? "FAQ updated successfully."
+                : "FAQ added successfully."
+        );
+
+
+        clearFAQForm();
+
+        await loadFAQs();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "Unable to connect to server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   EDIT FAQ
+========================================== */
+
+function editFAQ(id) {
+
+    const faq =
+        allFAQs.find(
+            item => item._id === id
+        );
+
+
+    if (!faq) return;
+
+
+    document
+        .getElementById("editFAQId")
+        .value = faq._id;
+
+
+    document
+        .getElementById("faqQuestion")
+        .value = faq.question;
+
+
+    document
+        .getElementById("faqCategory")
+        .value = faq.category;
+
+
+    document
+        .getElementById("faqAnswer")
+        .value = faq.answer;
+
+
+    document
+        .getElementById("formTitle")
+        .textContent = "Edit FAQ";
+
+
+    document
+        .getElementById("cancelEditBtn")
+        .style.display = "inline-block";
+
+
+    document
+        .getElementById("adminPanel")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* ==========================================
+   CANCEL EDIT
+========================================== */
+
+function cancelEdit() {
+
+    clearFAQForm();
+
+}
+
+
+/* ==========================================
+   CLEAR FORM
+========================================== */
+
+function clearFAQForm() {
+
+    document
+        .getElementById("editFAQId")
+        .value = "";
+
+
+    document
+        .getElementById("faqQuestion")
+        .value = "";
+
+
+    document
+        .getElementById("faqCategory")
+        .value = "";
+
+
+    document
+        .getElementById("faqAnswer")
+        .value = "";
+
+
+    document
+        .getElementById("formTitle")
+        .textContent = "Add New FAQ";
+
+
+    document
+        .getElementById("cancelEditBtn")
+        .style.display = "none";
+
+
+    document.getElementById(
+        "questionError"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "categoryError"
+    ).textContent = "";
+
+
+    document.getElementById(
+        "answerError"
+    ).textContent = "";
+
+}
+
+
+/* ==========================================
+   DELETE FAQ
+========================================== */
+
+async function deleteFAQ(id) {
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this FAQ?"
+        );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/faqs/${id}`,
+                {
+                    method: "DELETE",
+                    credentials: "same-origin"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (response.status === 401) {
+
+            hideAdminPanel();
+
+            showToast(
+                "Session expired."
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            showToast(
+                data.message ||
+                "Delete failed."
+            );
+
+            return;
+
+        }
+
+
+        showToast(
+            "FAQ deleted successfully."
+        );
+
+
+        await loadFAQs();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "Unable to connect to server."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   DASHBOARD STATS
+========================================== */
+
+function updateStudentDashboard() {
+    const totalFAQsEl = document.getElementById("studentTotalFAQs");
+    const totalCategoriesEl = document.getElementById("studentTotalCategories");
+    const totalLocationsEl = document.getElementById("studentTotalLocations");
+    const categoryList = document.getElementById("studentCategoryList");
+    const recentList = document.getElementById("studentRecentFAQs");
+
+    if (totalFAQsEl) totalFAQsEl.textContent = allFAQs.length;
+
+    const categories = {};
+    allFAQs.forEach(faq => {
+        categories[faq.category] = (categories[faq.category] || 0) + 1;
+    });
+
+    if (totalCategoriesEl) {
+        totalCategoriesEl.textContent = Object.keys(categories).length;
+    }
+
+    if (totalLocationsEl) {
+        totalLocationsEl.textContent = campusLocations.length || 0;
+    }
+
+    if (categoryList) {
+        const entries = Object.entries(categories);
+
+        categoryList.innerHTML = entries.length
+            ? entries.map(([category, count]) => `
+                <div class="student-category-row">
+                    <span>${escapeHTML(category)}</span>
+                    <span class="student-category-count">${count}</span>
+                </div>
+            `).join("")
+            : `
+                <div class="student-category-row">
+                    <span>No categories available</span>
+                    <span class="student-category-count">0</span>
+                </div>
+            `;
+    }
+
+    if (recentList) {
+        const recent = allFAQs.slice(-5).reverse();
+
+        recentList.innerHTML = recent.length
+            ? recent.map(faq => `
+                <div class="student-recent-item">
+                    <strong>${escapeHTML(faq.question)}</strong>
+                    <small>${escapeHTML(faq.category)}</small>
+                </div>
+            `).join("")
+            : `
+                <div class="student-recent-item">
+                    <small>No FAQs available.</small>
+                </div>
+            `;
+    }
+}
+
+function openStudentAssistant() {
+    const panel = document.getElementById("chatbotPanel");
+    const input = document.getElementById("chatbotInput");
+
+    if (panel) panel.classList.add("open");
+    if (input) input.focus();
+}
+
+
+function updateDashboard() {
+
+    document
+        .getElementById("totalFAQs")
+        .textContent =
+        allFAQs.length;
+
+
+    const categories =
+        new Set(
+            allFAQs.map(
+                faq => faq.category
+            )
+        );
+
+
+    document
+        .getElementById("totalCategories")
+        .textContent =
+        categories.size;
+
+
+    document
+        .getElementById("totalLocations")
+        .textContent =
+        campusLocations.length || 9;
+
+    updateStudentDashboard();
+
+}
+
+
+/* ==========================================
+   CHARTS
+========================================== */
+
+function updateCharts() {
+
+    const categories = {};
+
+    allFAQs.forEach(faq => {
+
+        categories[faq.category] =
+            (categories[faq.category] || 0) + 1;
+
+    });
+
+
+    const labels =
+        Object.keys(categories);
+
+
+    const values =
+        Object.values(categories);
+
+
+    const barCanvas =
+        document.getElementById(
+            "categoryChart"
+        );
+
+
+    const doughnutCanvas =
+        document.getElementById(
+            "distributionChart"
+        );
+
+
+    if (!barCanvas || !doughnutCanvas) {
+        return;
+    }
+
+
+    if (categoryChart) {
+        categoryChart.destroy();
+    }
+
+
+    if (distributionChart) {
+        distributionChart.destroy();
+    }
+
+
+    categoryChart =
+        new Chart(
+            barCanvas,
+            {
+                type: "bar",
+
+                data: {
+
+                    labels,
+
+                    datasets: [{
+
+                        label: "FAQs",
+
+                        data: values
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+
+                }
+
+            }
+        );
+
+
+    distributionChart =
+        new Chart(
+            doughnutCanvas,
+            {
+                type: "doughnut",
+
+                data: {
+
+                    labels,
+
+                    datasets: [{
+
+                        data: values
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true
+
+                }
+
+            }
+        );
+
+}
+
+
+/* ==========================================
+   RECENT FAQs
+========================================== */
+
+function renderRecentFAQs() {
+
+    const container =
+        document.getElementById(
+            "recentFAQs"
+        );
+
+
+    const recent =
+        allFAQs.slice(0, 5);
+
+
+    if (!recent.length) {
+
+        container.innerHTML =
+            "<small>No FAQs available.</small>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        recent.map(faq => {
+
+            const date =
+                faq.createdAt
+                    ? new Date(
+                        faq.createdAt
+                    ).toLocaleString()
+                    : "";
+
+            return `
+
+                <div class="admin-item">
+
+                    <div>
+
+                        <h4>
+                            ${escapeHTML(
+                                faq.question
+                            )}
+                        </h4>
+
+                        <small>
+                            ${escapeHTML(
+                                faq.category
+                            )}
+                            ${date ? " • " + date : ""}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ==========================================
+   ADMIN FAQ LIST
+========================================== */
+
+function renderAdminList() {
+
+    const container =
+        document.getElementById(
+            "adminFAQList"
+        );
+
+
+    if (!allFAQs.length) {
+
+        container.innerHTML =
+            "<small>No FAQs available.</small>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        allFAQs.map(faq => `
+
+            <div class="admin-item">
+
+                <div>
+
+                    <h4>
+                        ${escapeHTML(
+                            faq.question
+                        )}
+                    </h4>
+
+                    <small>
+                        ${escapeHTML(
+                            faq.category
+                        )}
+                    </small>
+
+                </div>
+
+
+                <div class="admin-actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editFAQ('${faq._id}')"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteFAQ('${faq._id}')"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* ==========================================
+   ESC KEY
+========================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            closeLoginModal();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   START APP
+========================================== */
+
+async function startApp() {
+
+    await loadFAQs();
+
+    await loadCampusLocations();
+
+    updateDashboard();
+
+    await checkAuth();
+
+
+    setTimeout(() => {
+
+        const loading =
+            document.getElementById(
+                "loadingScreen"
+            );
+
+
+        loading.style.display = "none";
+
+    }, 500);
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+startApp();
+
+
+/* ==========================================
+   FAQ CHATBOT
+========================================== */
+const chatbotLauncher = document.getElementById("chatbotLauncher");
+const chatbotPanel = document.getElementById("chatbotPanel");
+const chatbotClose = document.getElementById("chatbotClose");
+const chatbotInput = document.getElementById("chatbotInput");
+const chatbotSend = document.getElementById("chatbotSend");
+const chatbotMessages = document.getElementById("chatbotMessages");
+
+function chatbotWords(text) {
+    return String(text || "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
+}
+
+function addChatMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = `chatbot-msg ${type}`;
+    div.textContent = text;
+    chatbotMessages.appendChild(div);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+function answerChatbot(query) {
+    const q = query.trim();
+    if (!q) return;
+    addChatMessage(q, "user");
+    const words = chatbotWords(q);
+    let best = null;
+    let bestScore = 0;
+
+    allFAQs.forEach(faq => {
+        const text = `${faq.question} ${faq.answer} ${faq.category}`.toLowerCase();
+        let score = 0;
+        words.forEach(word => {
+            if (text.includes(word)) score += 1;
+            if (String(faq.question).toLowerCase().includes(word)) score += 2;
+        });
+        if (score > bestScore) { bestScore = score; best = faq; }
+    });
+
+    if (best && bestScore >= 1) {
+        addChatMessage(`📌 ${best.question}\n\n${best.answer}`, "bot");
+    } else {
+        const location = campusLocations.find(loc => {
+            const name = String(loc.name).toLowerCase();
+            return words.some(word => name.includes(word));
+        });
+        if (location) {
+            addChatMessage(`📍 ${location.name}\n${location.description}\n\nUse the Campus Navigation section for map and directions.`, "bot");
+        } else {
+            addChatMessage("Sorry, I couldn't find an answer in the available LNCT FAQs. Try a different question or search the FAQ section.", "bot");
+        }
+    }
+    chatbotInput.value = "";
+}
+
+chatbotLauncher.addEventListener("click", () => { chatbotPanel.classList.toggle("open"); if (chatbotPanel.classList.contains("open")) chatbotInput.focus(); });
+chatbotClose.addEventListener("click", () => chatbotPanel.classList.remove("open"));
+chatbotSend.addEventListener("click", () => answerChatbot(chatbotInput.value));
+chatbotInput.addEventListener("keydown", e => { if (e.key === "Enter") answerChatbot(chatbotInput.value); });
+document.querySelectorAll(".chatbot-quick button").forEach(btn => btn.addEventListener("click", () => answerChatbot(btn.dataset.q)));
+
+/* ==========================================
+   STUDENT PROFILE
+========================================== */
+const STUDENT_PROFILE_KEY = "lnct_student_profile";
+
+function getStudentProfile() {
+    try { return JSON.parse(localStorage.getItem(STUDENT_PROFILE_KEY)) || null; }
+    catch (e) { return null; }
+}
+
+function updateStudentProfileUI() {
+    const profile = getStudentProfile();
+    const nameEl = document.getElementById("studentProfileName");
+    const detailsEl = document.getElementById("studentProfileDetails");
+    const avatarEl = document.getElementById("studentProfileAvatar");
+    if (!nameEl || !detailsEl || !avatarEl) return;
+    if (!profile) {
+        nameEl.textContent = "Welcome, Student";
+        detailsEl.textContent = "Set up your student profile for a personalized dashboard.";
+        avatarEl.textContent = "S";
+        return;
+    }
+    nameEl.textContent = profile.name || "Student";
+    const parts = [profile.course, profile.branch, profile.enrollment ? `Roll/Enrollment: ${profile.enrollment}` : ""].filter(Boolean);
+    detailsEl.textContent = parts.length ? parts.join(" • ") : "Student profile saved";
+    avatarEl.textContent = (profile.name || "S").trim().charAt(0).toUpperCase();
+}
+
+function openStudentProfile() {
+    const profile = getStudentProfile() || {};
+    document.getElementById("profileName").value = profile.name || "";
+    document.getElementById("profileCourse").value = profile.course || "";
+    document.getElementById("profileBranch").value = profile.branch || "";
+    document.getElementById("profileEnrollment").value = profile.enrollment || "";
+    document.getElementById("studentProfileModal").classList.add("open");
+    document.getElementById("profileName").focus();
+}
+
+function closeStudentProfile() {
+    document.getElementById("studentProfileModal").classList.remove("open");
+}
+
+function logoutStudentProfile() {
+    localStorage.removeItem(STUDENT_PROFILE_KEY);
+    updateStudentProfileUI();
+    showToast("Student profile logged out.");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateStudentProfileUI();
+    document.getElementById("studentProfileForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const profile = {
+        name: document.getElementById("profileName").value.trim(),
+        course: document.getElementById("profileCourse").value.trim(),
+        branch: document.getElementById("profileBranch").value.trim(),
+        enrollment: document.getElementById("profileEnrollment").value.trim()
+    };
+    if (!profile.name) return;
+    localStorage.setItem(STUDENT_PROFILE_KEY, JSON.stringify(profile));
+    updateStudentProfileUI();
+    closeStudentProfile();
+    showToast("Student profile saved.");
+});
+
+document.getElementById("studentProfileModal").addEventListener("click", function(event) {
+    if (event.target === this) closeStudentProfile();
+});
+
+updateStudentProfileUI();
+});
+
+
+let allEvents = [];
+
+function setEventMessage(message, ok=false){
+    const el=document.getElementById("eventFormMessage");
+    if(!el)return;
+    el.textContent=message||"";
+    el.style.color=ok ? "#16803c" : "#c62828";
+}
+
+function readEventPoster(file){
+    return new Promise((resolve,reject)=>{
+        if(!file){ resolve(""); return; }
+        const allowed=["image/jpeg","image/png","image/webp"];
+        if(!allowed.includes(file.type)) return reject(new Error("Only JPG, PNG or WEBP images are allowed."));
+        if(file.size>5*1024*1024) return reject(new Error("Poster must be smaller than 5 MB."));
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(new Error("Unable to read poster."));
+        reader.readAsDataURL(file);
+    });
+}
+
+function previewEventPoster(){
+    const input=document.getElementById("eventPoster");
+    const preview=document.getElementById("eventPosterPreview");
+    if(!input||!preview)return;
+    const file=input.files?.[0];
+    preview.innerHTML="";
+    if(!file)return;
+    if(file.size>5*1024*1024){ setEventMessage("Poster must be smaller than 5 MB."); input.value=""; return; }
+    const img=document.createElement("img");
+    img.alt="Event poster preview";
+    img.src=URL.createObjectURL(file);
+    preview.appendChild(img);
+}
+
+async function loadEvents(){
+    try{
+        const response=await fetch("/api/events");
+        if(!response.ok) throw new Error("Failed to load events");
+        allEvents=await response.json();
+        renderNotices();
+        renderAdminEvents();
+    }catch(error){
+        console.error(error);
+        const grid=document.getElementById("noticeGrid");
+        if(grid) grid.innerHTML='<div class="notice-empty"><h3>Unable to load events</h3><p>Please make sure the server is running.</p></div>';
+        const admin=document.getElementById("adminEventList");
+        if(admin) admin.innerHTML='<p>Unable to load events.</p>';
+    }
+}
+
+function renderNotices(){
+    const grid=document.getElementById("noticeGrid"); if(!grid)return;
+    const q=(document.getElementById("noticeSearch")?.value||"").toLowerCase().trim();
+    const cat=document.getElementById("noticeFilter")?.value||"all";
+    const list=allEvents.filter(n=>{
+        const text=`${n.title||""} ${n.description||""} ${n.category||""} ${n.venue||""}`.toLowerCase();
+        return (cat==="all"||n.category===cat) && text.includes(q);
+    });
+    if(!list.length){
+        grid.innerHTML='<div class="notice-empty"><h3>No events or notices found</h3><p>Try another search or category.</p></div>';
+        return;
+    }
+    grid.innerHTML=list.map(n=>`
+        <article class="notice-card">
+            <div class="notice-poster-wrap">
+                ${n.poster
+                    ? `<img class="notice-poster" src="${n.poster}" alt="${escapeHTML(n.title)} poster" loading="lazy">`
+                    : `<div class="notice-no-poster">📢</div>`}
+            </div>
+            <div class="notice-card-body">
+                <div class="notice-meta">
+                    <span class="notice-badge">${escapeHTML(n.category)}</span>
+                    <span class="notice-date">📅 ${escapeHTML(n.date)}</span>
+                </div>
+                <h3>${escapeHTML(n.title)}</h3>
+                <div class="notice-details">
+                    ${n.time ? `<div class="notice-detail">⏰ ${escapeHTML(n.time)}</div>` : ""}
+                    ${n.venue ? `<div class="notice-detail">📍 ${escapeHTML(n.venue)}</div>` : ""}
+                </div>
+                <p class="notice-description">${escapeHTML(n.description)}</p>
+            </div>
+        </article>`).join("");
+}
+
+function renderAdminEvents(){
+    const box=document.getElementById("adminEventList"); if(!box)return;
+    if(!allEvents.length){box.innerHTML='<p>No events published yet.</p>';return;}
+    box.innerHTML=allEvents.map(n=>`
+        <div class="admin-event-item">
+            <div style="flex:1;">
+                <h4>${escapeHTML(n.title)}</h4>
+                <p>🏷️ ${escapeHTML(n.category)} &nbsp; 📅 ${escapeHTML(n.date)}</p>
+                ${n.time?`<p>⏰ ${escapeHTML(n.time)}</p>`:""}
+                ${n.venue?`<p>📍 ${escapeHTML(n.venue)}</p>`:""}
+                <div class="admin-event-actions">
+                    <button class="event-edit-btn" onclick="editEvent('${n._id}')">✏️ Edit</button>
+                    <button class="event-delete-btn" onclick="deleteEvent('${n._id}')">🗑️ Delete</button>
+                </div>
+            </div>
+            ${n.poster?`<img src="${n.poster}" alt="Poster" loading="lazy">`:""}
+        </div>`).join("");
+}
+
+async function saveEvent(){
+    const title=document.getElementById("eventTitle").value.trim();
+    const category=document.getElementById("eventCategory").value;
+    const date=document.getElementById("eventDate").value.trim();
+    const time=document.getElementById("eventTime").value.trim();
+    const venue=document.getElementById("eventVenue").value.trim();
+    const description=document.getElementById("eventDescription").value.trim();
+    const editId=document.getElementById("editEventId").value.trim();
+    const file=document.getElementById("eventPoster").files?.[0];
+
+    if(title.length<3)return setEventMessage("Please enter a valid event title.");
+    if(!date)return setEventMessage("Please enter the event date.");
+    if(description.length<5)return setEventMessage("Please enter a proper description.");
+
+    try{
+        const poster=await readEventPoster(file);
+        const body={title,category,date,time,venue,description};
+        if(poster) body.poster=poster;
+
+        const response=await fetch(editId?`/api/events/${editId}`:"/api/events",{
+            method:editId?"PUT":"POST",
+            headers:{"Content-Type":"application/json"},
+            credentials:"same-origin",
+            body:JSON.stringify(body)
+        });
+        const result=await response.json().catch(()=>({}));
+        if(response.status===401){setEventMessage("Admin login expired. Please login again.");return;}
+        if(!response.ok)throw new Error(result.message||"Unable to save event.");
+
+        showToast(editId?"Event updated successfully.":"Event published successfully.");
+        clearEventForm();
+        await loadEvents();
+    }catch(error){
+        console.error(error);
+        setEventMessage(error.message||"Something went wrong.");
+    }
+}
+
+function editEvent(id){
+    const event=allEvents.find(x=>x._id===id); if(!event)return;
+    document.getElementById("editEventId").value=event._id;
+    document.getElementById("eventTitle").value=event.title||"";
+    document.getElementById("eventCategory").value=event.category||"Event";
+    document.getElementById("eventDate").value=event.date||"";
+    document.getElementById("eventTime").value=event.time||"";
+    document.getElementById("eventVenue").value=event.venue||"";
+    document.getElementById("eventDescription").value=event.description||"";
+    document.getElementById("eventPoster").value="";
+    document.getElementById("eventPosterPreview").innerHTML=event.poster?`<img src="${event.poster}" alt="Current poster">`:"";
+    document.getElementById("publishEventBtn").textContent="💾 Update Event";
+    document.getElementById("cancelEventBtn").textContent="✖ Cancel Edit";
+    document.getElementById("adminEventManagement")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+async function deleteEvent(id){
+    if(!confirm("Delete this event?"))return;
+    try{
+        const response=await fetch(`/api/events/${id}`,{method:"DELETE",credentials:"same-origin"});
+        const result=await response.json().catch(()=>({}));
+        if(response.status===401){showToast("Admin login expired.");return;}
+        if(!response.ok)throw new Error(result.message||"Unable to delete event.");
+        showToast("Event deleted successfully.");
+        await loadEvents();
+    }catch(error){console.error(error);showToast(error.message||"Delete failed.");}
+}
+
+function clearEventForm(){
+    document.getElementById("editEventId").value="";
+    document.getElementById("eventTitle").value="";
+    document.getElementById("eventCategory").value="Event";
+    document.getElementById("eventDate").value="";
+    document.getElementById("eventTime").value="";
+    document.getElementById("eventVenue").value="";
+    document.getElementById("eventDescription").value="";
+    document.getElementById("eventPoster").value="";
+    document.getElementById("eventPosterPreview").innerHTML="";
+    document.getElementById("publishEventBtn").textContent="📢 Publish Event";
+    document.getElementById("cancelEventBtn").textContent="✖ Clear";
+    setEventMessage("");
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    document.getElementById("eventPoster")?.addEventListener("change",previewEventPoster);
+    document.getElementById("noticeSearch")?.addEventListener("input",renderNotices);
+    document.getElementById("noticeFilter")?.addEventListener("change",renderNotices);
+    loadEvents();
+});
+</script>
+
+
+<div class="profile-modal" id="studentProfileModal">
+    <div class="profile-modal-card">
+        <h2>👤 Student Profile</h2>
+        <p>Your profile is saved only in this browser for the project demo.</p>
+        <form id="studentProfileForm">
+            <div class="profile-form-grid">
+                <div class="profile-field"><label for="profileName">Student Name</label><input id="profileName" required maxlength="80" placeholder="Enter your name"></div>
+                <div class="profile-field"><label for="profileCourse">Course</label><input id="profileCourse" maxlength="80" placeholder="e.g. B.Tech"></div>
+                <div class="profile-field"><label for="profileBranch">Branch</label><input id="profileBranch" maxlength="80" placeholder="e.g. CSE (AIML)"></div>
+                <div class="profile-field"><label for="profileEnrollment">Enrollment / Roll No.</label><input id="profileEnrollment" maxlength="50" placeholder="Enter enrollment or roll number"></div>
+            </div>
+            <div class="profile-modal-actions">
+                <button type="button" class="profile-cancel-btn" onclick="closeStudentProfile()">Cancel</button>
+                <button type="submit" class="profile-save-btn">Save Profile</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>\
